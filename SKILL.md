@@ -47,7 +47,12 @@ Load the CSV template headers from `references/product_import_template.csv`.
 
 ### 2. Fetch Product Page Content
 
-Use the `web_fetch` tool to retrieve the product page from the provided URL. Parse the HTML to extract product information.
+Use the `web_fetch` tool to retrieve the product page. **Always prepend `https://markdown.new/` to the product URL** — this automatically converts the page to clean Markdown, making it easier to extract structured data.
+
+For example, if the user provides `https://example.com/products/blue-widget`, fetch:
+```
+https://markdown.new/https://example.com/products/blue-widget
+```
 
 **IMPORTANT: All extracted text must be translated to English if the source website is in another language.**
 
@@ -134,7 +139,7 @@ Then instruct them to import via Shopify:
 
 ## Notes
 
-- **Extraction method**: Use `web_fetch` first; fall back to browser tools if content is missing
+- **Extraction method**: Always fetch via `https://markdown.new/<product_url>` for clean Markdown output; fall back to browser tools if content is missing
 - **Language**: Always translate non-English content to English
 - **Images**: Each product has exactly 2 rows — enhanced image (position 1) and original (position 2)
 - **Handles**: lowercase, hyphens, no special characters
