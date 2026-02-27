@@ -47,16 +47,15 @@ Load the CSV template headers from `references/product_import_template.csv`.
 
 ### 2. Fetch Product Page Content
 
-Use the `web_fetch` tool to retrieve the product page. **Always prepend `https://markdown.new/` to the product URL** — this automatically converts the page to clean Markdown, making it easier to extract structured data.
+Use the `web_fetch` tool to retrieve the product page. **If the store runs on Shopify, first try fetching the product's JSON endpoint** by appending `.json` to the product URL — this returns clean structured data without JavaScript rendering issues:
 
-For example, if the user provides `https://example.com/products/blue-widget`, fetch:
 ```
-https://markdown.new/https://example.com/products/blue-widget
+https://example.com/products/blue-widget.json
 ```
+
+If the store is not Shopify or the `.json` endpoint fails, fetch the product URL directly. If critical information is still missing (e.g. due to JavaScript rendering), fall back to using browser tools to navigate and extract interactively.
 
 **IMPORTANT: All extracted text must be translated to English if the source website is in another language.**
-
-If critical information cannot be extracted from the fetched content, fall back to using browser tools to navigate and extract interactively.
 
 **Always extract:**
 - **Product title** — The core product name
@@ -139,7 +138,7 @@ Then instruct them to import via Shopify:
 
 ## Notes
 
-- **Extraction method**: Always fetch via `https://markdown.new/<product_url>` for clean Markdown output; fall back to browser tools if content is missing
+- **Extraction method**: For Shopify stores, fetch `<product_url>.json` for clean structured data; fall back to direct URL fetch, then browser tools if content is still missing
 - **Language**: Always translate non-English content to English
 - **Images**: Each product has exactly 2 rows — enhanced image (position 1) and original (position 2)
 - **Handles**: lowercase, hyphens, no special characters
